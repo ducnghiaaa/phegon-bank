@@ -1,0 +1,309 @@
+{
+  "header": {
+    "support": "Hỗ trợ",
+    "contact": "Liên hệ",
+    "login": "Đăng nhập",
+    "logout": "Đăng xuất"
+  },
+  "home": {
+    "tag": "Tính năng mạnh mẽ",
+    "title": "Mọi thứ bạn cần cho Ngân hàng số",
+    "subtitle": "Các tính năng hiện đại được thiết kế để mang lại trải nghiệm ngân hàng tốt nhất cho khách hàng của bạn.",
+    "loginButton": "Đăng nhập",
+    "registerButton": "Đăng ký ngay",
+    "features": {
+      "transfer": {
+        "title": "Chuyển khoản tức thì",
+        "description": "Chuyển tiền nhanh chóng 24/7 với công nghệ bảo mật cao. Hỗ trợ chuyển khoản trong nước và quốc tế."
+      },
+      "savings": {
+        "title": "Tiết kiệm thông minh",
+        "description": "Gửi tiết kiệm với lãi suất hấp dẫn. Tự động tính toán và cập nhật số dư theo thời gian thực."
+      },
+      "cards": {
+        "title": "Quản lý thẻ",
+        "description": "Phát hành và quản lý thẻ tín dụng, thẻ ghi nợ dễ dàng. Khóa/mở khóa thẻ ngay lập tức khi cần."
+      },
+      "investment": {
+        "title": "Đầu tư trực tuyến",
+        "description": "Đầu tư chứng khoán, quỹ mở với giao diện trực quan. Theo dõi danh mục đầu tư mọi lúc mọi nơi."
+      },
+      "security": {
+        "title": "Bảo mật đa lớp",
+        "description": "Xác thực sinh trắc học, OTP, mã PIN. Mã hóa đầu cuối đảm bảo an toàn tuyệt đối cho giao dịch."
+      },
+      "support": {
+        "title": "Hỗ trợ 24/7",
+        "description": "Chatbot thông minh và đội ngũ chăm sóc khách hàng luôn sẵn sàng hỗ trợ bạn mọi lúc, mọi nơi."
+      }
+    },
+    "trusted": {
+      "title": "Được tin dùng bởi các đội nhóm trên toàn thế giới",
+      "testimonials": {
+        "tag": "Câu chuyện khách hàng",
+        "title": "Được yêu thích bởi",
+        "titleHighlight": "các đội nhóm khắp nơi",
+        "subtitle": "Xem khách hàng nói gì về trải nghiệm ngân hàng số với Phegon Bank.",
+        "items": {
+          "1": {
+            "quote": "Phegon Bank đã thay đổi cách tôi quản lý tài chính. Giao diện đơn giản, chuyển khoản nhanh chóng, và bảo mật tuyệt đối. Tôi cảm thấy an tâm hoàn toàn!",
+            "name": "Nguyễn Văn A",
+            "title": "Doanh nhân",
+            "company": "TechCorp Global"
+          },
+          "2": {
+            "quote": "Dịch vụ đầu tư trực tuyến của Phegon Bank thật sự ấn tượng. Tôi có thể theo dõi danh mục đầu tư mọi lúc, mọi nơi. ROI của tôi đã tăng đáng kể!",
+            "name": "Trần Thị B",
+            "title": "Nhà đầu tư",
+            "company": "StartupHub"
+          },
+          "3": {
+            "quote": "Tính năng tiết kiệm thông minh giúp tôi tích lũy tự động. Lãi suất hấp dẫn và minh bạch. Đây chính xác là những gì tôi cần cho tương lai tài chính của mình.",
+            "name": "Lê Văn C",
+            "title": "Quản lý sản phẩm",
+            "company": "InnoTech"
+          }
+        }
+      },
+      "stats": {
+        "teams": "Khách hàng",
+        "transactions": "Giao dịch",
+        "services": "Dịch vụ",
+        "uptime": "Uptime"
+      }
+    }
+  },
+  "login": {
+    "title": "Đăng nhập",
+    "email": "Email",
+    "password": "Mật khẩu",
+    "emailPlaceholder": "your@email.com",
+    "passwordPlaceholder": "••••••••",
+    "submitButton": "Đăng nhập",
+    "backToHome": "← Quay lại trang chủ",
+    "noAccount": "Chưa có tài khoản?",
+    "registerLink": "Đăng ký ngay"
+  },
+  "register": {
+    "title": "Tạo tài khoản",
+    "subtitle": "Đăng ký để bắt đầu trải nghiệm ngân hàng số",
+    "name": "Họ và tên",
+    "namePlaceholder": "Nguyễn Văn A",
+    "email": "Email",
+    "emailPlaceholder": "your@email.com",
+    "phone": "Số điện thoại",
+    "phonePlaceholder": "0901234567",
+    "password": "Mật khẩu",
+    "passwordPlaceholder": "••••••••",
+    "confirmPassword": "Xác nhận mật khẩu",
+    "confirmPasswordPlaceholder": "••••••••",
+    "submitButton": "Đăng ký",
+    "backToHome": "← Quay lại trang chủ",
+    "hasAccount": "Đã có tài khoản?",
+    "loginLink": "Đăng nhập ngay",
+    "terms": "Bằng việc đăng ký, bạn đồng ý với",
+    "termsLink": "Điều khoản dịch vụ"
+  },
+  "footer": {
+    "copyright": "© 2025 Phegon Bank. All rights reserved."
+  },
+  "transfer": {
+    "title": "Chuyển khoản",
+    "history": "Lịch sử giao dịch",
+    "searchPlaceholder": "Tìm kiếm giao dịch...",
+    "filter": {
+      "all": "Tất cả",
+      "sent": "Đã gửi",
+      "received": "Đã nhận",
+      "pending": "Đang chờ"
+    },
+    "table": {
+      "date": "Ngày",
+      "type": "Loại",
+      "recipient": "Người nhận",
+      "amount": "Số tiền",
+      "status": "Trạng thái",
+      "description": "Nội dung"
+    },
+    "status": {
+      "completed": "Hoàn thành",
+      "pending": "Đang chờ",
+      "failed": "Thất bại"
+    },
+    "type": {
+      "sent": "Chuyển đi",
+      "received": "Nhận về"
+    },
+    "noTransactions": "Chưa có giao dịch nào",
+    "emptyState": "Bạn chưa thực hiện giao dịch nào. Bắt đầu chuyển khoản ngay!"
+  },
+  "wallet": {
+    "title": "Ví & Tài khoản",
+    "subtitle": "Quản lý tài khoản và thực hiện nạp/rút tiền",
+    "accounts": "Danh sách tài khoản",
+    "accountDetails": "Chi tiết tài khoản",
+    "balance": "Số dư",
+    "currentBalance": "Số dư hiện tại",
+    "accountName": "Tên tài khoản",
+    "accountNumber": "Số tài khoản",
+    "cardNumber": "Số thẻ",
+    "expiryDate": "Ngày hết hạn",
+    "savings": "Tiết kiệm",
+    "checking": "Thanh toán",
+    "quickActions": "Thao tác nhanh",
+    "viewStatement": "Xem sao kê",
+    "transfer": "Chuyển khoản",
+    "settings": "Cài đặt",
+    "transaction": "Giao dịch",
+    "depositLabel": "Nạp tiền",
+    "withdrawLabel": "Rút tiền",
+    "amount": "Số tiền",
+    "amountPlaceholder": "Nhập số tiền",
+    "minAmount": "Số tiền tối thiểu",
+    "description": "Nội dung",
+    "descriptionPlaceholder": "Nhập nội dung giao dịch (tùy chọn)",
+    "depositButton": "Nạp tiền",
+    "withdrawButton": "Rút tiền",
+    "selectAccount": "Chọn tài khoản",
+    "selectAccountHint": "Vui lòng chọn một tài khoản để xem chi tiết và thực hiện giao dịch",
+    "successMessage": "Giao dịch đã được xử lý thành công!",
+    "userInfo": {
+      "title": "Thông tin người dùng",
+      "userName": "Tên người dùng",
+      "userId": "Mã khách hàng",
+      "currentBalance": "Số dư hiện tại"
+    },
+    "amountInfo": {
+      "title": "Thông tin số tiền",
+      "amount": "Số tiền",
+      "amountRequired": "Số tiền là bắt buộc",
+      "amountMin": "Số tiền tối thiểu là 1,000 VND",
+      "description": "Ghi chú",
+      "descriptionRequired": "Vui lòng nhập nội dung giao dịch"
+    },
+    "deposit": {
+      "methods": {
+        "title": "Phương thức nạp tiền",
+        "bankTransfer": "Chuyển khoản ngân hàng",
+        "ewallet": "Ví điện tử",
+        "cash": "Tiền mặt tại quầy",
+        "qr": "Thanh toán QR",
+        "card": "Thanh toán qua thẻ"
+      },
+      "bankInfo": {
+        "title": "Thông tin chuyển khoản",
+        "bankName": "Tên ngân hàng nhận",
+        "accountNumber": "Số tài khoản công ty",
+        "accountName": "Tên người nhận",
+        "referenceCode": "Mã tham chiếu",
+        "note": "Vui lòng chuyển khoản đúng số tiền và mã tham chiếu"
+      }
+    },
+    "withdraw": {
+      "methods": {
+        "title": "Phương thức nhận tiền",
+        "bankTransfer": "Chuyển khoản ngân hàng",
+        "cash": "Tiền mặt tại quầy"
+      },
+      "fee": "Phí giao dịch",
+      "receiveAmount": "Số tiền thực nhận",
+      "bankInfo": {
+        "title": "Thông tin tài khoản nhận tiền",
+        "bankName": "Tên ngân hàng",
+        "accountNumber": "Số tài khoản",
+        "accountName": "Tên chủ tài khoản"
+      },
+      "otp": {
+        "label": "Mã OTP",
+        "placeholder": "Nhập mã OTP",
+        "send": "Gửi mã OTP",
+        "required": "Vui lòng nhập mã OTP"
+      }
+    }
+  },
+  "support": {
+    "title": "Trung tâm Hỗ trợ",
+    "subtitle": "Tìm câu trả lời và hướng dẫn sử dụng dịch vụ ngân hàng số",
+    "searchPlaceholder": "Tìm kiếm câu hỏi thường gặp...",
+    "quickLinks": {
+      "faq": "Câu hỏi thường gặp",
+      "faqDesc": "Tìm câu trả lời nhanh cho các vấn đề phổ biến",
+      "tutorials": "Hướng dẫn",
+      "tutorialsDesc": "Video và bài viết hướng dẫn chi tiết",
+      "tips": "Mẹo & Thủ thuật",
+      "tipsDesc": "Các mẹo hữu ích để sử dụng hiệu quả"
+    },
+    "faq": {
+      "title": "Câu hỏi thường gặp",
+      "noResults": "Không tìm thấy câu hỏi nào"
+    },
+    "tutorials": {
+      "title": "Hướng dẫn học tập",
+      "levels": {
+        "beginner": "Cơ bản",
+        "intermediate": "Trung bình",
+        "advanced": "Nâng cao"
+      }
+    },
+    "categories": {
+      "all": "Tất cả",
+      "account": "Tài khoản",
+      "security": "Bảo mật",
+      "deposit": "Nạp tiền",
+      "withdraw": "Rút tiền",
+      "transaction": "Giao dịch"
+    }
+  },
+  "contact": {
+    "title": "Liên hệ với chúng tôi",
+    "subtitle": "Chúng tôi luôn sẵn sàng hỗ trợ bạn. Hãy gửi tin nhắn cho chúng tôi!",
+    "info": {
+      "phone": {
+        "title": "Điện thoại",
+        "description": "Gọi miễn phí 24/7"
+      },
+      "email": {
+        "title": "Email",
+        "description": "Phản hồi trong 24 giờ"
+      },
+      "address": {
+        "title": "Địa chỉ",
+        "description": "Văn phòng trung tâm"
+      },
+      "hours": {
+        "title": "Giờ làm việc",
+        "description": "Thứ 2 - Chủ nhật"
+      }
+    },
+    "quickSupport": {
+      "title": "Hỗ trợ nhanh",
+      "description": "Chat trực tiếp với nhân viên hỗ trợ",
+      "button": "Bắt đầu chat"
+    },
+    "form": {
+      "title": "Gửi tin nhắn",
+      "name": "Họ và tên",
+      "namePlaceholder": "Nguyễn Văn A",
+      "email": "Email",
+      "emailPlaceholder": "your@email.com",
+      "phone": "Số điện thoại",
+      "phonePlaceholder": "0901234567",
+      "subject": "Chủ đề",
+      "subjectPlaceholder": "Ví dụ: Câu hỏi về tài khoản",
+      "message": "Nội dung",
+      "messagePlaceholder": "Nhập nội dung tin nhắn của bạn...",
+      "submit": "Gửi tin nhắn",
+      "success": "Cảm ơn bạn đã liên hệ! Chúng tôi sẽ phản hồi sớm nhất có thể.",
+      "errors": {
+        "nameRequired": "Vui lòng nhập họ và tên",
+        "emailRequired": "Vui lòng nhập email",
+        "emailInvalid": "Email không hợp lệ",
+        "phoneRequired": "Vui lòng nhập số điện thoại",
+        "subjectRequired": "Vui lòng nhập chủ đề",
+        "messageRequired": "Vui lòng nhập nội dung",
+        "messageMinLength": "Nội dung phải có ít nhất 10 ký tự"
+      }
+    }
+  }
+}
+
