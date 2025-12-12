@@ -1,0 +1,309 @@
+{
+  "header": {
+    "support": "Support",
+    "contact": "Contact",
+    "login": "Login",
+    "logout": "Logout"
+  },
+  "home": {
+    "tag": "Powerful Features",
+    "title": "Everything you need for Digital Banking",
+    "subtitle": "Modern features designed to deliver the best banking experience for your customers.",
+    "loginButton": "Login",
+    "registerButton": "Sign up now",
+    "features": {
+      "transfer": {
+        "title": "Instant Transfer",
+        "description": "Transfer money quickly 24/7 with high security technology. Support domestic and international transfers."
+      },
+      "savings": {
+        "title": "Smart Savings",
+        "description": "Save with attractive interest rates. Automatically calculate and update balance in real-time."
+      },
+      "cards": {
+        "title": "Card Management",
+        "description": "Issue and manage credit cards, debit cards easily. Lock/unlock cards instantly when needed."
+      },
+      "investment": {
+        "title": "Online Investment",
+        "description": "Invest in stocks, mutual funds with intuitive interface. Track your portfolio anytime, anywhere."
+      },
+      "security": {
+        "title": "Multi-layer Security",
+        "description": "Biometric authentication, OTP, PIN code. End-to-end encryption ensures absolute security for transactions."
+      },
+      "support": {
+        "title": "24/7 Support",
+        "description": "Smart chatbot and customer care team always ready to support you anytime, anywhere."
+      }
+    },
+    "trusted": {
+      "title": "Trusted by teams worldwide",
+      "testimonials": {
+        "tag": "Customer story",
+        "title": "Loved by",
+        "titleHighlight": "teams everywhere",
+        "subtitle": "See what customers say about their digital banking experience with Phegon Bank.",
+        "items": {
+          "1": {
+            "quote": "Phegon Bank has changed how I manage my finances. Simple interface, fast transfers, and absolute security. I feel completely at ease!",
+            "name": "John Smith",
+            "title": "Entrepreneur",
+            "company": "TechCorp Global"
+          },
+          "2": {
+            "quote": "Phegon Bank's online investment service is truly impressive. I can track my portfolio anytime, anywhere. My ROI has increased significantly!",
+            "name": "Emily Johnson",
+            "title": "Investor",
+            "company": "StartupHub"
+          },
+          "3": {
+            "quote": "The smart savings feature helps me save automatically. Attractive interest rates and transparency. This is exactly what I need for my financial future.",
+            "name": "Michael Brown",
+            "title": "Product Manager",
+            "company": "InnoTech"
+          }
+        }
+      },
+      "stats": {
+        "teams": "Customers",
+        "transactions": "Transactions",
+        "services": "Services",
+        "uptime": "Uptime"
+      }
+    }
+  },
+  "login": {
+    "title": "Login",
+    "email": "Email",
+    "password": "Password",
+    "emailPlaceholder": "your@email.com",
+    "passwordPlaceholder": "••••••••",
+    "submitButton": "Login",
+    "backToHome": "← Back to home",
+    "noAccount": "Don't have an account?",
+    "registerLink": "Register now"
+  },
+  "register": {
+    "title": "Create Account",
+    "subtitle": "Sign up to start your digital banking experience",
+    "name": "Full Name",
+    "namePlaceholder": "John Doe",
+    "email": "Email",
+    "emailPlaceholder": "your@email.com",
+    "phone": "Phone Number",
+    "phonePlaceholder": "+1234567890",
+    "password": "Password",
+    "passwordPlaceholder": "••••••••",
+    "confirmPassword": "Confirm Password",
+    "confirmPasswordPlaceholder": "••••••••",
+    "submitButton": "Register",
+    "backToHome": "← Back to home",
+    "hasAccount": "Already have an account?",
+    "loginLink": "Login now",
+    "terms": "By registering, you agree to our",
+    "termsLink": "Terms of Service"
+  },
+  "footer": {
+    "copyright": "© 2025 Phegon Bank. All rights reserved."
+  },
+  "transfer": {
+    "title": "Transfer",
+    "history": "Transaction History",
+    "searchPlaceholder": "Search transactions...",
+    "filter": {
+      "all": "All",
+      "sent": "Sent",
+      "received": "Received",
+      "pending": "Pending"
+    },
+    "table": {
+      "date": "Date",
+      "type": "Type",
+      "recipient": "Recipient",
+      "amount": "Amount",
+      "status": "Status",
+      "description": "Description"
+    },
+    "status": {
+      "completed": "Completed",
+      "pending": "Pending",
+      "failed": "Failed"
+    },
+    "type": {
+      "sent": "Sent",
+      "received": "Received"
+    },
+    "noTransactions": "No transactions found",
+    "emptyState": "You haven't made any transactions yet. Start transferring now!"
+  },
+  "wallet": {
+    "title": "Wallet & Accounts",
+    "subtitle": "Manage accounts and deposit/withdraw money",
+    "accounts": "Account List",
+    "accountDetails": "Account Details",
+    "balance": "Balance",
+    "currentBalance": "Current Balance",
+    "accountName": "Account Name",
+    "accountNumber": "Account Number",
+    "cardNumber": "Card Number",
+    "expiryDate": "Expiry Date",
+    "savings": "Savings",
+    "checking": "Checking",
+    "quickActions": "Quick Actions",
+    "viewStatement": "View Statement",
+    "transfer": "Transfer",
+    "settings": "Settings",
+    "transaction": "Transaction",
+    "depositLabel": "Deposit",
+    "withdrawLabel": "Withdraw",
+    "amount": "Amount",
+    "amountPlaceholder": "Enter amount",
+    "minAmount": "Minimum amount",
+    "description": "Description",
+    "descriptionPlaceholder": "Enter transaction description (optional)",
+    "depositButton": "Deposit",
+    "withdrawButton": "Withdraw",
+    "selectAccount": "Select Account",
+    "selectAccountHint": "Please select an account to view details and make transactions",
+    "successMessage": "Transaction processed successfully!",
+    "userInfo": {
+      "title": "User Information",
+      "userName": "User Name",
+      "userId": "Customer ID",
+      "currentBalance": "Current Balance"
+    },
+    "amountInfo": {
+      "title": "Amount Information",
+      "amount": "Amount",
+      "amountRequired": "Amount is required",
+      "amountMin": "Minimum amount is 1,000 VND",
+      "description": "Note",
+      "descriptionRequired": "Please enter transaction description"
+    },
+    "deposit": {
+      "methods": {
+        "title": "Deposit Method",
+        "bankTransfer": "Bank Transfer",
+        "ewallet": "E-Wallet",
+        "cash": "Cash at Counter",
+        "qr": "QR Payment",
+        "card": "Card Payment"
+      },
+      "bankInfo": {
+        "title": "Transfer Information",
+        "bankName": "Bank Name",
+        "accountNumber": "Company Account Number",
+        "accountName": "Account Holder Name",
+        "referenceCode": "Reference Code",
+        "note": "Please transfer the exact amount with the reference code"
+      }
+    },
+    "withdraw": {
+      "methods": {
+        "title": "Withdrawal Method",
+        "bankTransfer": "Bank Transfer",
+        "cash": "Cash at Counter"
+      },
+      "fee": "Transaction Fee",
+      "receiveAmount": "Amount to Receive",
+      "bankInfo": {
+        "title": "Receiving Account Information",
+        "bankName": "Bank Name",
+        "accountNumber": "Account Number",
+        "accountName": "Account Holder Name"
+      },
+      "otp": {
+        "label": "OTP Code",
+        "placeholder": "Enter OTP code",
+        "send": "Send OTP",
+        "required": "Please enter OTP code"
+      }
+    }
+  },
+  "support": {
+    "title": "Support Center",
+    "subtitle": "Find answers and guides for digital banking services",
+    "searchPlaceholder": "Search frequently asked questions...",
+    "quickLinks": {
+      "faq": "FAQ",
+      "faqDesc": "Quick answers to common questions",
+      "tutorials": "Tutorials",
+      "tutorialsDesc": "Video and detailed guides",
+      "tips": "Tips & Tricks",
+      "tipsDesc": "Useful tips for efficient usage"
+    },
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "noResults": "No questions found"
+    },
+    "tutorials": {
+      "title": "Learning Guides",
+      "levels": {
+        "beginner": "Beginner",
+        "intermediate": "Intermediate",
+        "advanced": "Advanced"
+      }
+    },
+    "categories": {
+      "all": "All",
+      "account": "Account",
+      "security": "Security",
+      "deposit": "Deposit",
+      "withdraw": "Withdraw",
+      "transaction": "Transaction"
+    }
+  },
+  "contact": {
+    "title": "Contact Us",
+    "subtitle": "We're here to help. Send us a message!",
+    "info": {
+      "phone": {
+        "title": "Phone",
+        "description": "Free call 24/7"
+      },
+      "email": {
+        "title": "Email",
+        "description": "Response within 24 hours"
+      },
+      "address": {
+        "title": "Address",
+        "description": "Head office"
+      },
+      "hours": {
+        "title": "Business Hours",
+        "description": "Monday - Sunday"
+      }
+    },
+    "quickSupport": {
+      "title": "Quick Support",
+      "description": "Chat directly with support staff",
+      "button": "Start Chat"
+    },
+    "form": {
+      "title": "Send Message",
+      "name": "Full Name",
+      "namePlaceholder": "John Doe",
+      "email": "Email",
+      "emailPlaceholder": "your@email.com",
+      "phone": "Phone Number",
+      "phonePlaceholder": "+1234567890",
+      "subject": "Subject",
+      "subjectPlaceholder": "e.g., Account question",
+      "message": "Message",
+      "messagePlaceholder": "Enter your message...",
+      "submit": "Send Message",
+      "success": "Thank you for contacting us! We'll respond as soon as possible.",
+      "errors": {
+        "nameRequired": "Please enter your name",
+        "emailRequired": "Please enter email",
+        "emailInvalid": "Invalid email format",
+        "phoneRequired": "Please enter phone number",
+        "subjectRequired": "Please enter subject",
+        "messageRequired": "Please enter message",
+        "messageMinLength": "Message must be at least 10 characters"
+      }
+    }
+  }
+}
+
