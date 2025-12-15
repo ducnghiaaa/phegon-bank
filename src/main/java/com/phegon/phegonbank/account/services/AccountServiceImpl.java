@@ -38,7 +38,21 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Account createAccount(AccountType accountType, User user) {
-        return null
+        log.info("Insdie createAccount()");
+
+        String accountNumber = generateAccountNumber();
+
+        Account account = Account.builder()
+                .accountNumber(accountNumber)
+                .accountType(accountType)
+                .currency(Currency.USD)
+                .balance(BigDecimal.ZERO)
+                .status(AccountStatus.ACTIVE)
+                .user(user)
+                .createdAt(LocalDateTime.now())
+                .build();
+
+        return accountRepo.save(account);
     }
 
     @Override
@@ -50,6 +64,19 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Response<?> closeAccount(String accountNumber) {
         return null;
+    }
+    private String generateAccountNumber() {
+        String accountNumber;
+        do {
+            // Generate a random 8-digit number (from 10,000,000 to 99,999,999)
+            // and combine it with the "66" prefix.
+            accountNumber = "66" + (random.nextInt(90000000) + 10000000);
+
+        } while (accountRepo.findByAccountNumber(accountNumber).isPresent());
+
+
+        log.info("account number generated {}", accountRepo);
+        return accountNumber;
     }
 
 }
