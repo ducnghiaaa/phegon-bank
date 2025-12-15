@@ -1,4 +1,6 @@
 import { useTranslation } from "../contexts/LanguageContext";
+import { useAuth } from "../hooks/useAuth";
+import { Link } from "react-router-dom";
 import {
   HiArrowRight,
   HiCurrencyDollar,
@@ -12,6 +14,7 @@ import { FaPiggyBank, FaQuoteLeft } from "react-icons/fa";
 
 function Home() {
   const { t } = useTranslation();
+  const { isAuthenticated } = useAuth();
 
   const features = [
     {
@@ -97,13 +100,23 @@ function Home() {
 
           {/* CTA Button */}
           <div className="mt-10">
-            <a
-              href="/register"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-indigo-600 dark:bg-indigo-500 text-white rounded-lg hover:bg-indigo-700 dark:hover:bg-indigo-600 transition-all duration-200 text-lg font-medium shadow-lg hover:shadow-xl hover:scale-105"
-            >
-              {t("home.registerButton")}
-              <HiArrowRight className="w-5 h-5" />
-            </a>
+            {isAuthenticated ? (
+              <Link
+                to="/wallet"
+                className="inline-flex items-center gap-2 px-8 py-4 bg-indigo-600 dark:bg-indigo-500 text-white rounded-lg hover:bg-indigo-700 dark:hover:bg-indigo-600 transition-all duration-200 text-lg font-medium shadow-lg hover:shadow-xl hover:scale-105"
+              >
+                {t("home.transactionButton")}
+                <HiArrowRight className="w-5 h-5" />
+              </Link>
+            ) : (
+              <Link
+                to="/register"
+                className="inline-flex items-center gap-2 px-8 py-4 bg-indigo-600 dark:bg-indigo-500 text-white rounded-lg hover:bg-indigo-700 dark:hover:bg-indigo-600 transition-all duration-200 text-lg font-medium shadow-lg hover:shadow-xl hover:scale-105"
+              >
+                {t("home.registerButton")}
+                <HiArrowRight className="w-5 h-5" />
+              </Link>
+            )}
           </div>
         </div>
 

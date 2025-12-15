@@ -1,18 +1,27 @@
 import api from "./api";
-import type { LoginRequest, RegisterRequest, AuthResponse, User } from "../types/api.types";
+import type {
+  LoginRequest,
+  RegisterRequest,
+  ForgotPasswordRequest,
+  ResetPasswordRequest,
+  AuthResponse,
+} from "../types/api.types";
 
 export const authApi = {
-  login: (email: string, password: string) =>
-    api.post<AuthResponse>("/auth/login", { email, password } satisfies LoginRequest),
+  login: (body: LoginRequest) =>
+    api.post<AuthResponse>("/auth/login", body),
 
-  register: (userData: RegisterRequest) =>
-    api.post<AuthResponse>("/auth/register", userData),
+  register: (body: RegisterRequest) =>
+    api.post<AuthResponse>("/auth/register", body),
 
   logout: () =>
     api.post<void>("/auth/logout"),
 
-  getProfile: () =>
-    api.get<User>("/auth/profile"),
+  forgetPassword: (body: ForgotPasswordRequest) =>
+    api.post<void>("/auth/forgot-password", body),
+
+  resetPassword: (body: ResetPasswordRequest) =>
+    api.post<void>("/auth/reset-password", body),
 
   refreshToken: () =>
     api.post<AuthResponse>("/auth/refresh"),

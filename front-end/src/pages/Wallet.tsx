@@ -1,157 +1,49 @@
-import { useState } from "react";
 import { useTranslation } from "../contexts/LanguageContext";
 import {
   HiCreditCard,
   HiArrowDown,
-  HiArrowUp,
+  HiArrowRight,
   HiEye,
   HiEyeOff,
   HiCheckCircle,
 } from "react-icons/hi";
 import { formatCurrency } from "../utils/format";
-
-interface Account {
-  id: string;
-  accountNumber: string;
-  accountName: string;
-  balance: number;
-  type: "savings" | "checking";
-  cardNumber: string;
-  expiryDate: string;
-  userId: string;
-  userName: string;
-}
+import { useWallet } from "../hooks/useWallet";
+import type { Transaction } from "../types/api.types";
 
 function Wallet() {
   const { t } = useTranslation();
-  const [selectedAccount, setSelectedAccount] = useState<Account | null>(null);
-  const [showBalance, setShowBalance] = useState<Record<string, boolean>>({});
-  const [transactionType, setTransactionType] = useState<"deposit" | "withdraw">("deposit");
-  const [amount, setAmount] = useState("");
-  const [description, setDescription] = useState("");
-  const [depositMethod, setDepositMethod] = useState<"bankTransfer" | "ewallet" | "cash" | "qr" | "card">("bankTransfer");
-  const [withdrawMethod, setWithdrawMethod] = useState<"bankTransfer" | "cash">("bankTransfer");
-  const [otp, setOtp] = useState("");
-  const [showSuccess, setShowSuccess] = useState(false);
-  const [errors, setErrors] = useState<Record<string, string>>({});
-
-  // Mock data - sẽ thay thế bằng API call
-  const accounts: Account[] = [
-    {
-      id: "1",
-      accountNumber: "1234567890",
-      accountName: "Tài khoản thanh toán",
-      balance: 50000000,
-      type: "checking",
-      cardNumber: "1234 5678 9012 3456",
-      expiryDate: "12/25",
-      userId: "KH001",
-      userName: "Nguyễn Văn A",
-    },
-    {
-      id: "2",
-      accountNumber: "0987654321",
-      accountName: "Tài khoản tiết kiệm",
-      balance: 200000000,
-      type: "savings",
-      cardNumber: "9876 5432 1098 7654",
-      expiryDate: "06/26",
-      userId: "KH001",
-      userName: "Nguyễn Văn A",
-    },
-  ];
-
-  // Bank info for deposit
-  const bankInfo = {
-    bankName: "Phegon Bank",
-    accountNumber: "9999999999",
-    accountName: "CÔNG TY PHEGON BANK",
-    referenceCode: selectedAccount ? `DEP${selectedAccount.userId}${Date.now()}` : "",
-  };
-
-  // Withdrawal fee (1% of amount)
-  const withdrawalFee = amount ? Math.round(Number(amount) * 0.01) : 0;
-  const receiveAmount = amount ? Number(amount) - withdrawalFee : 0;
-
-  const toggleBalanceVisibility = (accountId: string) => {
-    setShowBalance((prev) => ({
-      ...prev,
-      [accountId]: !prev[accountId],
-    }));
-  };
-
-  const handleAccountClick = (account: Account) => {
-    setSelectedAccount(account);
-    setShowSuccess(false);
-    setErrors({});
-    setAmount("");
-    setDescription("");
-    setOtp("");
-  };
-
-  const validateAmount = () => {
-    const numAmount = Number(amount);
-    if (!amount) {
-      setErrors((prev) => ({ ...prev, amount: t("wallet.amountInfo.amountRequired") }));
-      return false;
-    }
-    if (numAmount < 1000) {
-      setErrors((prev) => ({ ...prev, amount: t("wallet.amountInfo.amountMin") }));
-      return false;
-    }
-    setErrors((prev) => ({ ...prev, amount: "" }));
-    return true;
-  };
-
-  const validateDescription = () => {
-    if (!description.trim()) {
-      setErrors((prev) => ({ ...prev, description: t("wallet.amountInfo.descriptionRequired") }));
-      return false;
-    }
-    setErrors((prev) => ({ ...prev, description: "" }));
-    return true;
-  };
-
-  const handleAmountBlur = () => {
-    validateAmount();
-    if (transactionType === "withdraw") {
-      validateDescription();
-    }
-  };
-
-  const handleDescriptionBlur = () => {
-    if (transactionType === "withdraw") {
-      validateDescription();
-    }
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const isAmountValid = validateAmount();
-    const isDescriptionValid = transactionType === "withdraw" ? validateDescription() : true;
-    const isOtpValid = transactionType === "withdraw" ? otp.length === 6 : true;
-
-    if (!isAmountValid || !isDescriptionValid || !isOtpValid) {
-      return;
-    }
-
-    // Xử lý nạp/rút tiền với API
-    console.log("Transaction:", {
-      accountId: selectedAccount?.id,
-      type: transactionType,
-      amount,
-      description,
-      method: transactionType === "deposit" ? depositMethod : withdrawMethod,
-      otp: transactionType === "withdraw" ? otp : undefined,
-    });
-    setShowSuccess(true);
-    setAmount("");
-    setDescription("");
-    setOtp("");
-    setTimeout(() => {
-      setShowSuccess(false);
-    }, 3000);
-  };
+  const {
+    selectedAccount,
+    accounts,
+    showBalance,
+    transactionType,
+    amount,
+    description,
+    transferAccountNumber,
+    showSuccess,
+    errors,
+    loading,
+    showTransactionHistory,
+    transactions,
+    loadingTransactions,
+    submitButtonClassName,
+    submitButtonText,
+    setAmount,
+    setDescription,
+    setTransferAccountNumber,
+    setTransactionType,
+    toggleBalanceVisibility,
+    handleAccountClick,
+    handleAmountBlur,
+    handleDescriptionBlur,
+    handleTransferAccountBlur,
+    handleSubmit,
+    handleViewStatement,
+    formatTransactionType,
+    formatTransactionStatus,
+    formatDate,
+  } = useWallet();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-800 dark:to-gray-900 py-8 px-4">
@@ -299,18 +191,174 @@ function Wallet() {
                       {t("wallet.quickActions")}
                     </p>
                     <div className="flex gap-3 flex-wrap">
-                      <button className="px-4 py-2 bg-indigo-100 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 rounded-lg hover:bg-indigo-200 dark:hover:bg-indigo-900/30 transition-colors text-sm font-medium">
-                        {t("wallet.viewStatement")}
-                      </button>
-                      <button className="px-4 py-2 bg-indigo-100 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 rounded-lg hover:bg-indigo-200 dark:hover:bg-indigo-900/30 transition-colors text-sm font-medium">
-                        {t("wallet.transfer")}
-                      </button>
-                      <button className="px-4 py-2 bg-indigo-100 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 rounded-lg hover:bg-indigo-200 dark:hover:bg-indigo-900/30 transition-colors text-sm font-medium">
-                        {t("wallet.settings")}
+                      <button
+                        onClick={handleViewStatement}
+                        className={`px-4 py-2 rounded-lg transition-colors text-sm font-medium ${
+                          showTransactionHistory
+                            ? "bg-indigo-600 dark:bg-indigo-500 text-white"
+                            : "bg-indigo-100 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-200 dark:hover:bg-indigo-900/30"
+                        }`}
+                      >
+                        {showTransactionHistory
+                          ? t("wallet.hideStatement") || "Ẩn lịch sử"
+                          : t("wallet.viewStatement")}
                       </button>
                     </div>
                   </div>
                 </div>
+
+                {/* Transaction History */}
+                {showTransactionHistory && (
+                  <div className="bg-surface rounded-xl shadow-md p-6">
+                    <h2 className="text-xl font-bold text-primary mb-4">
+                      {t("wallet.transactionHistory") || "Lịch sử giao dịch"}
+                    </h2>
+                    {loadingTransactions ? (
+                      <div className="text-center py-8">
+                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600 dark:border-indigo-400 mx-auto mb-2"></div>
+                        <p className="text-sm text-tertiary">
+                          {t("wallet.loading") || "Đang tải..."}
+                        </p>
+                      </div>
+                    ) : transactions.length === 0 ? (
+                      <div className="text-center py-8">
+                        <p className="text-secondary">
+                          {t("wallet.noTransactions") ||
+                            "Chưa có giao dịch nào"}
+                        </p>
+                      </div>
+                    ) : (
+                      <div className="space-y-3">
+                        {transactions.map((transaction: Transaction) => {
+                          const statusInfo = formatTransactionStatus(
+                            transaction.status
+                          );
+
+                          // Get account numbers from transaction
+                          const sourceAccount =
+                            transaction.sourceAccount ||
+                            transaction.accountNumber;
+                          const destinationAccount =
+                            transaction.destinationAccount ||
+                            transaction.recipientAccountNumber;
+                          const currentAccountNumber =
+                            selectedAccount?.accountNumber;
+
+                          // Determine if transaction is outgoing based on sourceAccount
+                          // For TRANSFER: outgoing if sourceAccount matches selectedAccount, incoming if destinationAccount matches
+                          // For WITHDRAWAL: always outgoing (money goes out)
+                          // For DEPOSIT: always incoming (money comes in)
+                          let isOutgoing = false;
+                          if (transaction.transactionType === "WITHDRAWAL") {
+                            isOutgoing = true;
+                          } else if (
+                            transaction.transactionType === "DEPOSIT"
+                          ) {
+                            isOutgoing = false;
+                          } else if (
+                            transaction.transactionType === "TRANSFER"
+                          ) {
+                            // For TRANSFER: check if current account is source (outgoing) or destination (incoming)
+                            if (
+                              currentAccountNumber &&
+                              sourceAccount === currentAccountNumber
+                            ) {
+                              isOutgoing = true;
+                            } else if (
+                              currentAccountNumber &&
+                              destinationAccount === currentAccountNumber
+                            ) {
+                              isOutgoing = false;
+                            } else {
+                              // Fallback: if sourceAccount exists, assume outgoing
+                              isOutgoing = !!sourceAccount;
+                            }
+                          }
+
+                          // Get transaction date (support both formats)
+                          const transactionDate =
+                            transaction.transactionDate ||
+                            transaction.createdAt ||
+                            "";
+
+                          return (
+                            <div
+                              key={transaction.id}
+                              className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
+                            >
+                              <div className="flex items-start justify-between mb-2">
+                                <div className="flex-1">
+                                  <div className="flex items-center gap-2 mb-1">
+                                    <span className="font-semibold text-primary">
+                                      {formatTransactionType(
+                                        transaction.transactionType
+                                      )}
+                                    </span>
+                                    <span
+                                      className={`text-xs px-2 py-1 rounded-full ${statusInfo.color} bg-opacity-10`}
+                                    >
+                                      {statusInfo.text}
+                                    </span>
+                                  </div>
+                                  {transaction.description && (
+                                    <p className="text-sm text-tertiary mb-1">
+                                      {transaction.description}
+                                    </p>
+                                  )}
+                                  {transaction.transactionType ===
+                                    "TRANSFER" && (
+                                    <>
+                                      {isOutgoing && destinationAccount && (
+                                        <p className="text-xs text-tertiary">
+                                          {t("wallet.toAccount") ||
+                                            "Đến tài khoản"}
+                                          : {destinationAccount}
+                                        </p>
+                                      )}
+                                      {!isOutgoing && sourceAccount && (
+                                        <p className="text-xs text-tertiary">
+                                          {t("wallet.fromAccount") ||
+                                            "Từ tài khoản"}
+                                          : {sourceAccount}
+                                        </p>
+                                      )}
+                                    </>
+                                  )}
+                                </div>
+                                <div className="text-right">
+                                  <p
+                                    className={`text-lg font-bold ${
+                                      isOutgoing
+                                        ? "text-red-600 dark:text-red-400"
+                                        : "text-green-600 dark:text-green-400"
+                                    }`}
+                                  >
+                                    {isOutgoing ? "-" : "+"}
+                                    {formatCurrency(transaction.amount)}
+                                  </p>
+                                </div>
+                              </div>
+                              <div className="flex items-center justify-between text-xs text-tertiary pt-2 border-t border-gray-200 dark:border-gray-700">
+                                <span>
+                                  {transactionDate
+                                    ? formatDate(transactionDate)
+                                    : ""}
+                                </span>
+                                <span>
+                                  {t("wallet.accountNumber")}:{" "}
+                                  {currentAccountNumber ||
+                                    sourceAccount ||
+                                    transaction.accountNumber ||
+                                    ""}
+                                </span>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
+                )}
 
                 {/* Transaction Form */}
                 <div className="bg-surface rounded-xl shadow-md p-6">
@@ -322,29 +370,21 @@ function Wallet() {
                   <div className="flex gap-2 mb-6">
                     <button
                       type="button"
-                      onClick={() => {
-                        setTransactionType("deposit");
-                        setShowSuccess(false);
-                        setErrors({});
-                      }}
+                      onClick={() => setTransactionType("transfer")}
                       className={`flex-1 px-4 py-3 rounded-lg font-medium transition-all duration-200 ${
-                        transactionType === "deposit"
-                          ? "bg-green-600 dark:bg-green-500 text-white shadow-md"
+                        transactionType === "transfer"
+                          ? "bg-blue-600 dark:bg-blue-500 text-white shadow-md"
                           : "bg-gray-100 dark:bg-gray-700 text-secondary hover:bg-gray-200 dark:hover:bg-gray-600"
                       }`}
                     >
                       <div className="flex items-center justify-center gap-2">
-                        <HiArrowDown className="w-5 h-5" />
-                        {t("wallet.depositLabel")}
+                        <HiArrowRight className="w-5 h-5" />
+                        {t("wallet.transferLabel") || "Chuyển tiền"}
                       </div>
                     </button>
                     <button
                       type="button"
-                      onClick={() => {
-                        setTransactionType("withdraw");
-                        setShowSuccess(false);
-                        setErrors({});
-                      }}
+                      onClick={() => setTransactionType("withdraw")}
                       className={`flex-1 px-4 py-3 rounded-lg font-medium transition-all duration-200 ${
                         transactionType === "withdraw"
                           ? "bg-red-600 dark:bg-red-500 text-white shadow-md"
@@ -352,11 +392,20 @@ function Wallet() {
                       }`}
                     >
                       <div className="flex items-center justify-center gap-2">
-                        <HiArrowUp className="w-5 h-5" />
+                        <HiArrowDown className="w-5 h-5" />
                         {t("wallet.withdrawLabel")}
                       </div>
                     </button>
                   </div>
+
+                  {/* Error Message */}
+                  {errors.general && (
+                    <div className="mb-4 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
+                      <p className="text-sm text-red-700 dark:text-red-400">
+                        {errors.general}
+                      </p>
+                    </div>
+                  )}
 
                   {/* Success Message */}
                   {showSuccess && (
@@ -413,18 +462,14 @@ function Wallet() {
                       <div className="space-y-4">
                         <div>
                           <label className="block text-sm font-medium text-secondary mb-2">
-                            {t("wallet.amountInfo.amount")} <span className="text-red-500">*</span>
+                            {t("wallet.amountInfo.amount")}{" "}
+                            <span className="text-red-500">*</span>
                           </label>
                           <div className="relative">
                             <input
                               type="number"
                               value={amount}
-                              onChange={(e) => {
-                                setAmount(e.target.value);
-                                if (errors.amount) {
-                                  setErrors((prev) => ({ ...prev, amount: "" }));
-                                }
-                              }}
+                              onChange={(e) => setAmount(e.target.value)}
                               onBlur={handleAmountBlur}
                               placeholder={t("wallet.amountPlaceholder")}
                               className={`w-full px-4 py-3 pr-16 input-base border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-lg [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none ${
@@ -439,12 +484,44 @@ function Wallet() {
                             </span>
                           </div>
                           {errors.amount && (
-                            <p className="mt-1 text-sm text-red-500">{errors.amount}</p>
+                            <p className="mt-1 text-sm text-red-500">
+                              {errors.amount}
+                            </p>
                           )}
                           <p className="mt-1 text-xs text-tertiary">
                             {t("wallet.minAmount")}: {formatCurrency(1000)}
                           </p>
                         </div>
+
+                        {/* Transfer Account Number */}
+                        {transactionType === "transfer" && (
+                          <div>
+                            <label className="block text-sm font-medium text-secondary mb-2">
+                              {t("wallet.transfer.toAccount") ||
+                                "Số tài khoản nhận"}{" "}
+                              <span className="text-red-500">*</span>
+                            </label>
+                            <input
+                              type="text"
+                              value={transferAccountNumber}
+                              onChange={(e) => setTransferAccountNumber(e.target.value)}
+                              onBlur={handleTransferAccountBlur}
+                              placeholder={
+                                t("wallet.transfer.toAccountPlaceholder") ||
+                                "Nhập số tài khoản nhận tiền"
+                              }
+                              className={`w-full px-4 py-3 input-base border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent font-mono ${
+                                errors.transferAccount ? "border-red-500" : ""
+                              }`}
+                              required
+                            />
+                            {errors.transferAccount && (
+                              <p className="mt-1 text-sm text-red-500">
+                                {errors.transferAccount}
+                              </p>
+                            )}
+                          </div>
+                        )}
 
                         <div>
                           <label className="block text-sm font-medium text-secondary mb-2">
@@ -456,12 +533,7 @@ function Wallet() {
                           <input
                             type="text"
                             value={description}
-                            onChange={(e) => {
-                              setDescription(e.target.value);
-                              if (errors.description) {
-                                setErrors((prev) => ({ ...prev, description: "" }));
-                              }
-                            }}
+                            onChange={(e) => setDescription(e.target.value)}
                             onBlur={handleDescriptionBlur}
                             placeholder={t("wallet.descriptionPlaceholder")}
                             className={`w-full px-4 py-3 input-base border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent ${
@@ -470,213 +542,41 @@ function Wallet() {
                             required={transactionType === "withdraw"}
                           />
                           {errors.description && (
-                            <p className="mt-1 text-sm text-red-500">{errors.description}</p>
+                            <p className="mt-1 text-sm text-red-500">
+                              {errors.description}
+                            </p>
                           )}
                         </div>
-
-                        {/* Withdrawal Fee & Receive Amount */}
-                        {transactionType === "withdraw" && amount && Number(amount) >= 1000 && (
-                          <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4 space-y-2">
-                            <div className="flex justify-between text-sm">
-                              <span className="text-secondary">{t("wallet.withdraw.fee")}:</span>
-                              <span className="font-medium text-primary">
-                                {formatCurrency(withdrawalFee)}
-                              </span>
-                            </div>
-                            <div className="flex justify-between text-base font-semibold">
-                              <span className="text-primary">
-                                {t("wallet.withdraw.receiveAmount")}:
-                              </span>
-                              <span className="text-green-600 dark:text-green-400">
-                                {formatCurrency(receiveAmount)}
-                              </span>
-                            </div>
-                          </div>
-                        )}
                       </div>
                     </div>
 
-                    {/* Deposit Methods */}
-                    {transactionType === "deposit" && (
-                      <div>
-                        <h3 className="text-sm font-semibold text-primary mb-3">
-                          {t("wallet.deposit.methods.title")}
-                        </h3>
-                        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                          {(["bankTransfer", "ewallet", "cash", "qr", "card"] as const).map(
-                            (method) => (
-                              <button
-                                key={method}
-                                type="button"
-                                onClick={() => setDepositMethod(method)}
-                                className={`p-3 rounded-lg border-2 text-sm font-medium transition-all duration-200 ${
-                                  depositMethod === method
-                                    ? "border-indigo-500 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400"
-                                    : "border-gray-200 dark:border-gray-700 text-secondary hover:border-indigo-300 dark:hover:border-indigo-700"
-                                }`}
-                              >
-                                {t(`wallet.deposit.methods.${method}`)}
-                              </button>
-                            )
-                          )}
-                        </div>
-
-                        {/* Bank Transfer Info */}
-                        {depositMethod === "bankTransfer" && (
-                          <div className="mt-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
-                            <h4 className="text-sm font-semibold text-primary mb-3">
-                              {t("wallet.deposit.bankInfo.title")}
-                            </h4>
-                            <div className="space-y-2 text-sm">
-                              <div className="flex justify-between">
-                                <span className="text-tertiary">
-                                  {t("wallet.deposit.bankInfo.bankName")}:
-                                </span>
-                                <span className="font-medium text-primary">{bankInfo.bankName}</span>
-                              </div>
-                              <div className="flex justify-between">
-                                <span className="text-tertiary">
-                                  {t("wallet.deposit.bankInfo.accountNumber")}:
-                                </span>
-                                <span className="font-medium text-primary font-mono">
-                                  {bankInfo.accountNumber}
-                                </span>
-                              </div>
-                              <div className="flex justify-between">
-                                <span className="text-tertiary">
-                                  {t("wallet.deposit.bankInfo.accountName")}:
-                                </span>
-                                <span className="font-medium text-primary">
-                                  {bankInfo.accountName}
-                                </span>
-                              </div>
-                              <div className="flex justify-between">
-                                <span className="text-tertiary">
-                                  {t("wallet.deposit.bankInfo.referenceCode")}:
-                                </span>
-                                <span className="font-medium text-indigo-600 dark:text-indigo-400 font-mono">
-                                  {bankInfo.referenceCode}
-                                </span>
-                              </div>
-                              <div className="mt-3 pt-3 border-t border-blue-200 dark:border-blue-800">
-                                <p className="text-xs text-tertiary">
-                                  {t("wallet.deposit.bankInfo.note")}
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    )}
-
-                    {/* Withdraw Methods */}
-                    {transactionType === "withdraw" && (
-                      <div>
-                        <h3 className="text-sm font-semibold text-primary mb-3">
-                          {t("wallet.withdraw.methods.title")}
-                        </h3>
-                        <div className="grid grid-cols-2 gap-3">
-                          {(["bankTransfer", "cash"] as const).map((method) => (
-                            <button
-                              key={method}
-                              type="button"
-                              onClick={() => setWithdrawMethod(method)}
-                              className={`p-3 rounded-lg border-2 text-sm font-medium transition-all duration-200 ${
-                                withdrawMethod === method
-                                  ? "border-indigo-500 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400"
-                                  : "border-gray-200 dark:border-gray-700 text-secondary hover:border-indigo-300 dark:hover:border-indigo-700"
-                              }`}
-                            >
-                              {t(`wallet.withdraw.methods.${method}`)}
-                            </button>
-                          ))}
-                        </div>
-
-                        {/* Bank Account Info for Withdrawal */}
-                        {withdrawMethod === "bankTransfer" && (
-                          <div className="mt-4 bg-gray-50 dark:bg-gray-800/50 rounded-lg p-4 space-y-3">
-                            <h4 className="text-sm font-semibold text-primary">
-                              {t("wallet.withdraw.bankInfo.title")}
-                            </h4>
-                            <div>
-                              <label className="block text-xs text-tertiary mb-1">
-                                {t("wallet.withdraw.bankInfo.bankName")} <span className="text-red-500">*</span>
-                              </label>
-                              <input
-                                type="text"
-                                placeholder="VD: Vietcombank, Techcombank..."
-                                className="w-full px-3 py-2 input-base border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm"
-                                required
-                              />
-                            </div>
-                            <div>
-                              <label className="block text-xs text-tertiary mb-1">
-                                {t("wallet.withdraw.bankInfo.accountNumber")} <span className="text-red-500">*</span>
-                              </label>
-                              <input
-                                type="text"
-                                placeholder="Nhập số tài khoản nhận tiền"
-                                className="w-full px-3 py-2 input-base border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm font-mono"
-                                required
-                              />
-                            </div>
-                            <div>
-                              <label className="block text-xs text-tertiary mb-1">
-                                {t("wallet.withdraw.bankInfo.accountName")} <span className="text-red-500">*</span>
-                              </label>
-                              <input
-                                type="text"
-                                placeholder="Tên chủ tài khoản"
-                                className="w-full px-3 py-2 input-base border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm"
-                                required
-                              />
-                            </div>
-                          </div>
-                        )}
-
-                        {/* OTP */}
-                        <div>
-                          <label className="block text-sm font-medium text-secondary mb-2">
-                            {t("wallet.withdraw.otp.label")} <span className="text-red-500">*</span>
-                          </label>
-                          <div className="flex gap-2">
-                            <input
-                              type="text"
-                              value={otp}
-                              onChange={(e) => {
-                                const value = e.target.value.replace(/\D/g, "").slice(0, 6);
-                                setOtp(value);
-                              }}
-                              placeholder={t("wallet.withdraw.otp.placeholder")}
-                              className="flex-1 px-4 py-3 input-base border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-center text-lg font-mono tracking-widest"
-                              required
-                              maxLength={6}
-                            />
-                            <button
-                              type="button"
-                              className="px-4 py-3 bg-indigo-100 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 rounded-lg hover:bg-indigo-200 dark:hover:bg-indigo-900/30 transition-colors text-sm font-medium whitespace-nowrap"
-                            >
-                              {t("wallet.withdraw.otp.send")}
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    )}
-
                     <button
                       type="submit"
-                      className={`w-full px-4 py-3 rounded-lg font-medium text-white transition-all duration-200 ${
-                        transactionType === "deposit"
-                          ? "bg-green-600 dark:bg-green-500 hover:bg-green-700 dark:hover:bg-green-600"
-                          : "bg-red-600 dark:bg-red-500 hover:bg-red-700 dark:hover:bg-red-600"
-                      }`}
+                      disabled={loading}
+                      className={`w-full px-4 py-3 rounded-lg font-medium text-white transition-all duration-200 ${submitButtonClassName}`}
                     >
-                      {transactionType === "deposit"
-                        ? t("wallet.depositButton")
-                        : t("wallet.withdrawButton")}
+                      {submitButtonText}
                     </button>
                   </form>
                 </div>
+              </div>
+            ) : loading ? (
+              <div className="bg-surface rounded-xl shadow-md p-12 text-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 dark:border-indigo-400 mx-auto mb-4"></div>
+                <p className="text-lg text-secondary">
+                  {t("wallet.loading") || "Đang tải..."}
+                </p>
+              </div>
+            ) : accounts.length === 0 ? (
+              <div className="bg-surface rounded-xl shadow-md p-12 text-center">
+                <HiCreditCard className="w-16 h-16 text-gray-400 dark:text-gray-600 mx-auto mb-4" />
+                <p className="text-lg text-secondary mb-2">
+                  {t("wallet.noAccounts") || "Bạn chưa có tài khoản nào"}
+                </p>
+                <p className="text-sm text-tertiary">
+                  {t("wallet.noAccountsHint") ||
+                    "Vui lòng liên hệ ngân hàng để mở tài khoản"}
+                </p>
               </div>
             ) : (
               <div className="bg-surface rounded-xl shadow-md p-12 text-center">

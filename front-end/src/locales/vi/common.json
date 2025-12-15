@@ -1,9 +1,18 @@
 {
+  "loading": {
+    "text": "Đang tải..."
+  },
   "header": {
     "support": "Hỗ trợ",
     "contact": "Liên hệ",
     "login": "Đăng nhập",
-    "logout": "Đăng xuất"
+    "logout": "Đăng xuất",
+    "greeting": "Chào",
+    "userMenu": {
+      "profile": "Thông tin cá nhân",
+      "settings": "Cài đặt",
+      "logout": "Đăng xuất"
+    }
   },
   "home": {
     "tag": "Tính năng mạnh mẽ",
@@ -11,6 +20,7 @@
     "subtitle": "Các tính năng hiện đại được thiết kế để mang lại trải nghiệm ngân hàng tốt nhất cho khách hàng của bạn.",
     "loginButton": "Đăng nhập",
     "registerButton": "Đăng ký ngay",
+    "transactionButton": "Thực hiện giao dịch",
     "features": {
       "transfer": {
         "title": "Chuyển khoản tức thì",
@@ -80,29 +90,56 @@
     "emailPlaceholder": "your@email.com",
     "passwordPlaceholder": "••••••••",
     "submitButton": "Đăng nhập",
+    "loading": "Đang đăng nhập...",
     "backToHome": "← Quay lại trang chủ",
     "noAccount": "Chưa có tài khoản?",
-    "registerLink": "Đăng ký ngay"
+    "registerLink": "Đăng ký ngay",
+    "errors": {
+      "invalidCredentials": "Email hoặc mật khẩu không đúng",
+      "invalidInput": "Dữ liệu không hợp lệ",
+      "serverError": "Đã xảy ra lỗi. Vui lòng thử lại sau.",
+      "networkError": "Lỗi kết nối. Vui lòng kiểm tra kết nối mạng."
+    }
   },
   "register": {
     "title": "Tạo tài khoản",
     "subtitle": "Đăng ký để bắt đầu trải nghiệm ngân hàng số",
-    "name": "Họ và tên",
-    "namePlaceholder": "Nguyễn Văn A",
+    "firstName": "Họ",
+    "firstNamePlaceholder": "Nguyễn",
+    "lastName": "Tên",
+    "lastNamePlaceholder": "Văn A",
     "email": "Email",
     "emailPlaceholder": "your@email.com",
-    "phone": "Số điện thoại",
-    "phonePlaceholder": "0901234567",
+    "phoneNumber": "Số điện thoại",
+    "phoneNumberPlaceholder": "0901234567",
     "password": "Mật khẩu",
     "passwordPlaceholder": "••••••••",
     "confirmPassword": "Xác nhận mật khẩu",
     "confirmPasswordPlaceholder": "••••••••",
     "submitButton": "Đăng ký",
+    "loading": "Đang đăng ký...",
+    "success": "Đăng ký thành công! Vui lòng đăng nhập.",
     "backToHome": "← Quay lại trang chủ",
     "hasAccount": "Đã có tài khoản?",
     "loginLink": "Đăng nhập ngay",
     "terms": "Bằng việc đăng ký, bạn đồng ý với",
-    "termsLink": "Điều khoản dịch vụ"
+    "termsLink": "Điều khoản dịch vụ",
+    "errors": {
+      "firstNameRequired": "Vui lòng nhập họ",
+      "lastNameRequired": "Vui lòng nhập tên",
+      "emailRequired": "Vui lòng nhập email",
+      "emailInvalid": "Email không hợp lệ",
+      "phoneRequired": "Vui lòng nhập số điện thoại",
+      "phoneInvalid": "Số điện thoại không hợp lệ",
+      "passwordRequired": "Vui lòng nhập mật khẩu",
+      "passwordMinLength": "Mật khẩu phải có ít nhất 8 ký tự",
+      "confirmPasswordRequired": "Vui lòng xác nhận mật khẩu",
+      "passwordMismatch": "Mật khẩu không khớp",
+      "invalidInput": "Dữ liệu không hợp lệ",
+      "emailExists": "Email đã được sử dụng. Vui lòng chọn email khác.",
+      "serverError": "Đã xảy ra lỗi. Vui lòng thử lại sau.",
+      "networkError": "Lỗi kết nối. Vui lòng kiểm tra kết nối mạng."
+    }
   },
   "footer": {
     "copyright": "© 2025 Phegon Bank. All rights reserved."
@@ -139,7 +176,7 @@
   },
   "wallet": {
     "title": "Ví & Tài khoản",
-    "subtitle": "Quản lý tài khoản và thực hiện nạp/rút tiền",
+    "subtitle": "Quản lý tài khoản và thực hiện chuyển tiền/rút tiền",
     "accounts": "Danh sách tài khoản",
     "accountDetails": "Chi tiết tài khoản",
     "balance": "Số dư",
@@ -151,22 +188,41 @@
     "savings": "Tiết kiệm",
     "checking": "Thanh toán",
     "quickActions": "Thao tác nhanh",
-    "viewStatement": "Xem sao kê",
+    "viewStatement": "Xem lịch sử giao dịch",
+    "hideStatement": "Ẩn lịch sử",
+    "transactionHistory": "Lịch sử giao dịch",
     "transfer": "Chuyển khoản",
     "settings": "Cài đặt",
+    "toAccount": "Đến tài khoản",
+    "fromAccount": "Từ tài khoản",
+    "noTransactions": "Chưa có giao dịch nào",
+    "transactionType": {
+      "transfer": "Chuyển tiền",
+      "withdrawal": "Rút tiền",
+      "deposit": "Nạp tiền"
+    },
+    "transactionStatus": {
+      "completed": "Thành công",
+      "pending": "Đang xử lý",
+      "failed": "Thất bại"
+    },
     "transaction": "Giao dịch",
-    "depositLabel": "Nạp tiền",
+    "transferLabel": "Chuyển tiền",
     "withdrawLabel": "Rút tiền",
     "amount": "Số tiền",
     "amountPlaceholder": "Nhập số tiền",
     "minAmount": "Số tiền tối thiểu",
     "description": "Nội dung",
     "descriptionPlaceholder": "Nhập nội dung giao dịch (tùy chọn)",
-    "depositButton": "Nạp tiền",
+    "transferButton": "Chuyển tiền",
     "withdrawButton": "Rút tiền",
     "selectAccount": "Chọn tài khoản",
     "selectAccountHint": "Vui lòng chọn một tài khoản để xem chi tiết và thực hiện giao dịch",
     "successMessage": "Giao dịch đã được xử lý thành công!",
+    "processing": "Đang xử lý...",
+    "loading": "Đang tải...",
+    "noAccounts": "Bạn chưa có tài khoản nào",
+    "noAccountsHint": "Vui lòng liên hệ ngân hàng để mở tài khoản",
     "userInfo": {
       "title": "Thông tin người dùng",
       "userName": "Tên người dùng",
@@ -178,8 +234,15 @@
       "amount": "Số tiền",
       "amountRequired": "Số tiền là bắt buộc",
       "amountMin": "Số tiền tối thiểu là 1,000 VND",
+      "insufficientBalance": "Số dư không đủ",
       "description": "Ghi chú",
       "descriptionRequired": "Vui lòng nhập nội dung giao dịch"
+    },
+    "transfer": {
+      "toAccount": "Số tài khoản nhận",
+      "toAccountPlaceholder": "Nhập số tài khoản nhận tiền",
+      "accountRequired": "Vui lòng nhập số tài khoản nhận",
+      "sameAccount": "Không thể chuyển tiền cho chính tài khoản này"
     },
     "deposit": {
       "methods": {
@@ -219,6 +282,14 @@
         "send": "Gửi mã OTP",
         "required": "Vui lòng nhập mã OTP"
       }
+    },
+    "error": {
+      "fetchFailed": "Không thể tải dữ liệu",
+      "noAccountSelected": "Vui lòng chọn tài khoản",
+      "transferFailed": "Chuyển tiền thất bại",
+      "withdrawFailed": "Rút tiền thất bại",
+      "withdrawBankRequired": "Vui lòng điền đầy đủ thông tin ngân hàng",
+      "fetchTransactionsFailed": "Không thể tải lịch sử giao dịch"
     }
   },
   "support": {
@@ -303,6 +374,47 @@
         "messageRequired": "Vui lòng nhập nội dung",
         "messageMinLength": "Nội dung phải có ít nhất 10 ký tự"
       }
+    }
+  },
+  "profile": {
+    "title": "Thông tin cá nhân",
+    "subtitle": "Quản lý thông tin tài khoản và cài đặt bảo mật",
+    "tabs": {
+      "profile": "Thông tin cá nhân",
+      "password": "Đổi mật khẩu"
+    },
+    "form": {
+      "firstName": "Họ",
+      "lastName": "Tên",
+      "email": "Email",
+      "phoneNumber": "Số điện thoại",
+      "oldPassword": "Mật khẩu hiện tại",
+      "newPassword": "Mật khẩu mới",
+      "confirmPassword": "Xác nhận mật khẩu mới",
+      "passwordHint": "Mật khẩu phải có ít nhất 8 ký tự",
+      "updateButton": "Cập nhật thông tin",
+      "updatePasswordButton": "Đổi mật khẩu"
+    },
+    "accounts": {
+      "title": "Tài khoản"
+    },
+    "success": {
+      "updateProfile": "Cập nhật thông tin thành công!",
+      "updatePassword": "Đổi mật khẩu thành công!",
+      "updateAvatar": "Cập nhật ảnh đại diện thành công!"
+    },
+    "errors": {
+      "fetchFailed": "Không thể tải thông tin người dùng",
+      "updateFailed": "Cập nhật thông tin thất bại",
+      "updatePasswordFailed": "Đổi mật khẩu thất bại",
+      "invalidPassword": "Mật khẩu cũ không đúng",
+      "passwordMinLength": "Mật khẩu mới phải có ít nhất 8 ký tự",
+      "passwordMismatch": "Mật khẩu mới không khớp",
+      "uploadFailed": "Tải ảnh lên thất bại",
+      "invalidFileType": "Vui lòng chọn file ảnh",
+      "fileTooLarge": "File ảnh không được vượt quá 5MB",
+      "networkError": "Lỗi kết nối. Vui lòng thử lại sau.",
+      "userNotFound": "Không tìm thấy thông tin người dùng"
     }
   }
 }

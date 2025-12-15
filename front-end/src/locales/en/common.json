@@ -1,9 +1,18 @@
 {
+  "loading": {
+    "text": "Loading..."
+  },
   "header": {
     "support": "Support",
     "contact": "Contact",
     "login": "Login",
-    "logout": "Logout"
+    "logout": "Logout",
+    "greeting": "Hello",
+    "userMenu": {
+      "profile": "Profile",
+      "settings": "Settings",
+      "logout": "Logout"
+    }
   },
   "home": {
     "tag": "Powerful Features",
@@ -11,6 +20,7 @@
     "subtitle": "Modern features designed to deliver the best banking experience for your customers.",
     "loginButton": "Login",
     "registerButton": "Sign up now",
+    "transactionButton": "Make Transaction",
     "features": {
       "transfer": {
         "title": "Instant Transfer",
@@ -80,29 +90,56 @@
     "emailPlaceholder": "your@email.com",
     "passwordPlaceholder": "••••••••",
     "submitButton": "Login",
+    "loading": "Logging in...",
     "backToHome": "← Back to home",
     "noAccount": "Don't have an account?",
-    "registerLink": "Register now"
+    "registerLink": "Register now",
+    "errors": {
+      "invalidCredentials": "Invalid email or password",
+      "invalidInput": "Invalid input data",
+      "serverError": "An error occurred. Please try again later.",
+      "networkError": "Network error. Please check your connection."
+    }
   },
   "register": {
     "title": "Create Account",
     "subtitle": "Sign up to start your digital banking experience",
-    "name": "Full Name",
-    "namePlaceholder": "John Doe",
+    "firstName": "First Name",
+    "firstNamePlaceholder": "John",
+    "lastName": "Last Name",
+    "lastNamePlaceholder": "Doe",
     "email": "Email",
     "emailPlaceholder": "your@email.com",
-    "phone": "Phone Number",
-    "phonePlaceholder": "+1234567890",
+    "phoneNumber": "Phone Number",
+    "phoneNumberPlaceholder": "+1234567890",
     "password": "Password",
     "passwordPlaceholder": "••••••••",
     "confirmPassword": "Confirm Password",
     "confirmPasswordPlaceholder": "••••••••",
     "submitButton": "Register",
+    "loading": "Registering...",
+    "success": "Registration successful! Please login.",
     "backToHome": "← Back to home",
     "hasAccount": "Already have an account?",
     "loginLink": "Login now",
     "terms": "By registering, you agree to our",
-    "termsLink": "Terms of Service"
+    "termsLink": "Terms of Service",
+    "errors": {
+      "firstNameRequired": "Please enter first name",
+      "lastNameRequired": "Please enter last name",
+      "emailRequired": "Please enter email",
+      "emailInvalid": "Invalid email format",
+      "phoneRequired": "Please enter phone number",
+      "phoneInvalid": "Invalid phone number",
+      "passwordRequired": "Please enter password",
+      "passwordMinLength": "Password must be at least 8 characters",
+      "confirmPasswordRequired": "Please confirm password",
+      "passwordMismatch": "Passwords do not match",
+      "invalidInput": "Invalid input data",
+      "emailExists": "Email already exists. Please choose another email.",
+      "serverError": "An error occurred. Please try again later.",
+      "networkError": "Network error. Please check your connection."
+    }
   },
   "footer": {
     "copyright": "© 2025 Phegon Bank. All rights reserved."
@@ -139,7 +176,7 @@
   },
   "wallet": {
     "title": "Wallet & Accounts",
-    "subtitle": "Manage accounts and deposit/withdraw money",
+    "subtitle": "Manage accounts and transfer/withdraw money",
     "accounts": "Account List",
     "accountDetails": "Account Details",
     "balance": "Balance",
@@ -151,22 +188,41 @@
     "savings": "Savings",
     "checking": "Checking",
     "quickActions": "Quick Actions",
-    "viewStatement": "View Statement",
+    "viewStatement": "View Transaction History",
+    "hideStatement": "Hide History",
+    "transactionHistory": "Transaction History",
     "transfer": "Transfer",
     "settings": "Settings",
+    "toAccount": "To Account",
+    "fromAccount": "From Account",
+    "noTransactions": "No transactions found",
+    "transactionType": {
+      "transfer": "Transfer",
+      "withdrawal": "Withdrawal",
+      "deposit": "Deposit"
+    },
+    "transactionStatus": {
+      "completed": "Completed",
+      "pending": "Pending",
+      "failed": "Failed"
+    },
     "transaction": "Transaction",
-    "depositLabel": "Deposit",
+    "transferLabel": "Transfer",
     "withdrawLabel": "Withdraw",
     "amount": "Amount",
     "amountPlaceholder": "Enter amount",
     "minAmount": "Minimum amount",
     "description": "Description",
     "descriptionPlaceholder": "Enter transaction description (optional)",
-    "depositButton": "Deposit",
+    "transferButton": "Transfer",
     "withdrawButton": "Withdraw",
     "selectAccount": "Select Account",
     "selectAccountHint": "Please select an account to view details and make transactions",
     "successMessage": "Transaction processed successfully!",
+    "processing": "Processing...",
+    "loading": "Loading...",
+    "noAccounts": "You don't have any accounts yet",
+    "noAccountsHint": "Please contact the bank to open an account",
     "userInfo": {
       "title": "User Information",
       "userName": "User Name",
@@ -178,8 +234,15 @@
       "amount": "Amount",
       "amountRequired": "Amount is required",
       "amountMin": "Minimum amount is 1,000 VND",
+      "insufficientBalance": "Insufficient balance",
       "description": "Note",
       "descriptionRequired": "Please enter transaction description"
+    },
+    "transfer": {
+      "toAccount": "Recipient Account Number",
+      "toAccountPlaceholder": "Enter recipient account number",
+      "accountRequired": "Please enter recipient account number",
+      "sameAccount": "Cannot transfer to the same account"
     },
     "deposit": {
       "methods": {
@@ -219,6 +282,14 @@
         "send": "Send OTP",
         "required": "Please enter OTP code"
       }
+    },
+    "error": {
+      "fetchFailed": "Failed to load data",
+      "noAccountSelected": "Please select an account",
+      "transferFailed": "Transfer failed",
+      "withdrawFailed": "Withdrawal failed",
+      "withdrawBankRequired": "Please fill in all bank information",
+      "fetchTransactionsFailed": "Failed to load transaction history"
     }
   },
   "support": {
@@ -303,6 +374,47 @@
         "messageRequired": "Please enter message",
         "messageMinLength": "Message must be at least 10 characters"
       }
+    }
+  },
+  "profile": {
+    "title": "Profile",
+    "subtitle": "Manage your account information and security settings",
+    "tabs": {
+      "profile": "Profile Information",
+      "password": "Change Password"
+    },
+    "form": {
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "email": "Email",
+      "phoneNumber": "Phone Number",
+      "oldPassword": "Current Password",
+      "newPassword": "New Password",
+      "confirmPassword": "Confirm New Password",
+      "passwordHint": "Password must be at least 8 characters",
+      "updateButton": "Update Information",
+      "updatePasswordButton": "Change Password"
+    },
+    "accounts": {
+      "title": "Accounts"
+    },
+    "success": {
+      "updateProfile": "Profile updated successfully!",
+      "updatePassword": "Password changed successfully!",
+      "updateAvatar": "Avatar updated successfully!"
+    },
+    "errors": {
+      "fetchFailed": "Failed to load user information",
+      "updateFailed": "Failed to update profile",
+      "updatePasswordFailed": "Failed to change password",
+      "invalidPassword": "Current password is incorrect",
+      "passwordMinLength": "New password must be at least 8 characters",
+      "passwordMismatch": "New passwords do not match",
+      "uploadFailed": "Failed to upload image",
+      "invalidFileType": "Please select an image file",
+      "fileTooLarge": "Image file must not exceed 5MB",
+      "networkError": "Connection error. Please try again later.",
+      "userNotFound": "User information not found"
     }
   }
 }

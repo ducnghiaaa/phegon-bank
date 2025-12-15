@@ -2,6 +2,9 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { RouterProvider } from 'react-router-dom'
 import { LanguageProvider } from './contexts/LanguageContext'
+import { AuthProvider } from './contexts/AuthContext'
+import { LoadingProvider } from './contexts/LoadingContext'
+import Loading from './components/Loading'
 import router from './routes'
 import './index.css'
 
@@ -17,9 +20,14 @@ if (!rootElement) {
 
 createRoot(rootElement).render(
   <StrictMode>
-    <LanguageProvider>
-      <RouterProvider router={router} />
-    </LanguageProvider>
+    <LoadingProvider>
+      <AuthProvider>
+        <LanguageProvider>
+          <RouterProvider router={router} />
+          <Loading />
+        </LanguageProvider>
+      </AuthProvider>
+    </LoadingProvider>
   </StrictMode>,
 )
 

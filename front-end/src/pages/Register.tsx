@@ -1,61 +1,146 @@
 import { useState, FormEvent } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useTranslation } from "../contexts/LanguageContext";
+import { authApi } from "../services";
 
 function Register() {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    name: "",
+    firstName: "",
+    lastName: "",
     email: "",
-    phone: "",
+    phoneNumber: "",
     password: "",
     confirmPassword: "",
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const navigate = useNavigate();
+  const [loading, setLoading] = useState<boolean>(false);
+  const [submitError, setSubmitError] = useState<string>("");
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
 
-    if (!formData.name.trim()) {
-      newErrors.name = "Vui lòng nhập họ và tên";
+    if (!formData.firstName.trim()) {
+      newErrors.firstName =
+        t("register.errors.firstNameRequired") || "Vui lòng nhập họ";
+    }
+
+    if (!formData.lastName.trim()) {
+      newErrors.lastName =
+        t("register.errors.lastNameRequired") || "Vui lòng nhập tên";
     }
 
     if (!formData.email.trim()) {
-      newErrors.email = "Vui lòng nhập email";
+      newErrors.email =
+        t("register.errors.emailRequired") || "Vui lòng nhập email";
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = "Email không hợp lệ";
+      newErrors.email =
+        t("register.errors.emailInvalid") || "Email không hợp lệ";
     }
 
-    if (!formData.phone.trim()) {
-      newErrors.phone = "Vui lòng nhập số điện thoại";
-    } else if (!/^(0|\+84)[35789]\d{8}$/.test(formData.phone.replace(/\s+/g, ""))) {
-      newErrors.phone = "Số điện thoại không hợp lệ";
+    if (!formData.phoneNumber.trim()) {
+      newErrors.phoneNumber =
+        t("register.errors.phoneRequired") || "Vui lòng nhập số điện thoại";
+    } else if (
+      !/^(0|\+84)[35789]\d{8}$/.test(formData.phoneNumber.replace(/\s+/g, ""))
+    ) {
+      newErrors.phoneNumber =
+        t("register.errors.phoneInvalid") || "Số điện thoại không hợp lệ";
     }
 
     if (!formData.password) {
-      newErrors.password = "Vui lòng nhập mật khẩu";
+      newErrors.password =
+        t("register.errors.passwordRequired") || "Vui lòng nhập mật khẩu";
     } else if (formData.password.length < 8) {
-      newErrors.password = "Mật khẩu phải có ít nhất 8 ký tự";
+      newErrors.password =
+        t("register.errors.passwordMinLength") ||
+        "Mật khẩu phải có ít nhất 8 ký tự";
     }
 
     if (!formData.confirmPassword) {
-      newErrors.confirmPassword = "Vui lòng xác nhận mật khẩu";
+      newErrors.confirmPassword =
+        t("register.errors.confirmPasswordRequired") ||
+        "Vui lòng xác nhận mật khẩu";
     } else if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = "Mật khẩu không khớp";
+      newErrors.confirmPassword =
+        t("register.errors.passwordMismatch") || "Mật khẩu không khớp";
     }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (validateForm()) {
-      // TODO: Xử lý đăng ký với API
-      console.log("Register:", formData);
-      // Giả lập đăng ký thành công
-      navigate("/login");
+    setSubmitError("");
+
+    if (!validateForm()) {
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      // Gọi API đăng ký
+      await authApi.register({
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        phoneNumber: formData.phoneNumber,
+        email: formData.email,
+        password: formData.password,
+      });
+
+      // Đăng ký thành công, redirect đến trang login
+      navigate("/login", {
+        state: {
+          message:
+            t("register.success") || "Đăng ký thành công! Vui lòng đăng nhập.",
+        },
+      });
+    } catch (err: unknown) {
+      // Xử lý lỗi
+      if (err && typeof err === "object" && "response" in err) {
+        const axiosError = err as {
+          response?: {
+            data?: { message?: string };
+            status?: number;
+          };
+        };
+
+        if (axiosError.response?.status === 400) {
+          const errorMessage = axiosError.response?.data?.message;
+          if (errorMessage?.toLowerCase().includes("email")) {
+            setSubmitError(
+              t("register.errors.emailExists") ||
+                "Email đã được sử dụng. Vui lòng chọn email khác."
+            );
+          } else {
+            setSubmitError(
+              errorMessage ||
+                t("register.errors.invalidInput") ||
+                "Dữ liệu không hợp lệ"
+            );
+          }
+        } else if (axiosError.response?.status === 409) {
+          setSubmitError(
+            t("register.errors.emailExists") ||
+              "Email đã được sử dụng. Vui lòng chọn email khác."
+          );
+        } else {
+          setSubmitError(
+            t("register.errors.serverError") ||
+              "Đã xảy ra lỗi. Vui lòng thử lại sau."
+          );
+        }
+      } else {
+        setSubmitError(
+          t("register.errors.networkError") ||
+            "Lỗi kết nối. Vui lòng kiểm tra kết nối mạng."
+        );
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -74,34 +159,67 @@ function Register() {
           <h2 className="text-3xl font-bold text-primary mb-2">
             {t("register.title")}
           </h2>
-          <p className="text-sm text-secondary">
-            {t("register.subtitle")}
-          </p>
+          <p className="text-sm text-secondary">{t("register.subtitle")}</p>
         </div>
 
+        {/* Error Message */}
+        {submitError && (
+          <div className="mb-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
+            <p className="text-sm text-red-600 dark:text-red-400">
+              {submitError}
+            </p>
+          </div>
+        )}
+
         <form onSubmit={handleSubmit} className="space-y-5">
-          {/* Name Field */}
-          <div>
-            <label
-              htmlFor="name"
-              className="block text-sm font-medium text-secondary mb-2"
-            >
-              {t("register.name")}
-            </label>
-            <input
-              type="text"
-              id="name"
-              value={formData.name}
-              onChange={(e) => handleChange("name", e.target.value)}
-              className={`w-full px-4 py-2 input-base border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-colors ${
-                errors.name ? "border-red-500" : ""
-              }`}
-              placeholder={t("register.namePlaceholder")}
-              required
-            />
-            {errors.name && (
-              <p className="mt-1 text-sm text-red-500">{errors.name}</p>
-            )}
+          {/* First Name Field */}
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label
+                htmlFor="firstName"
+                className="block text-sm font-medium text-secondary mb-2"
+              >
+                {t("register.firstName")}
+              </label>
+              <input
+                type="text"
+                id="firstName"
+                value={formData.firstName}
+                onChange={(e) => handleChange("firstName", e.target.value)}
+                className={`w-full px-4 py-2 input-base border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-colors ${
+                  errors.firstName ? "border-red-500" : ""
+                }`}
+                placeholder={t("register.firstNamePlaceholder")}
+                required
+              />
+              {errors.firstName && (
+                <p className="mt-1 text-sm text-red-500">{errors.firstName}</p>
+              )}
+            </div>
+
+            {/* Last Name Field */}
+            <div>
+              <label
+                htmlFor="lastName"
+                className="block text-sm font-medium text-secondary mb-2"
+              >
+                {t("register.lastName")}
+              </label>
+              <input
+                type="text"
+                id="lastName"
+                value={formData.lastName}
+                onChange={(e) => handleChange("lastName", e.target.value)}
+                className={`w-full px-4 py-2 input-base border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-colors ${
+                  errors.lastName ? "border-red-500" : ""
+                }`}
+                placeholder={t("register.lastNamePlaceholder")}
+                required
+              />
+              {errors.lastName && (
+                <p className="mt-1 text-sm text-red-500">{errors.lastName}</p>
+              )}
+            </div>
           </div>
 
           {/* Email Field */}
@@ -128,27 +246,27 @@ function Register() {
             )}
           </div>
 
-          {/* Phone Field */}
+          {/* Phone Number Field */}
           <div>
             <label
-              htmlFor="phone"
+              htmlFor="phoneNumber"
               className="block text-sm font-medium text-secondary mb-2"
             >
-              {t("register.phone")}
+              {t("register.phoneNumber")}
             </label>
             <input
               type="tel"
-              id="phone"
-              value={formData.phone}
-              onChange={(e) => handleChange("phone", e.target.value)}
+              id="phoneNumber"
+              value={formData.phoneNumber}
+              onChange={(e) => handleChange("phoneNumber", e.target.value)}
               className={`w-full px-4 py-2 input-base border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-colors ${
-                errors.phone ? "border-red-500" : ""
+                errors.phoneNumber ? "border-red-500" : ""
               }`}
-              placeholder={t("register.phonePlaceholder")}
+              placeholder={t("register.phoneNumberPlaceholder")}
               required
             />
-            {errors.phone && (
-              <p className="mt-1 text-sm text-red-500">{errors.phone}</p>
+            {errors.phoneNumber && (
+              <p className="mt-1 text-sm text-red-500">{errors.phoneNumber}</p>
             )}
           </div>
 
@@ -216,9 +334,36 @@ function Register() {
           {/* Submit Button */}
           <button
             type="submit"
-            className="w-full px-4 py-3 bg-indigo-600 dark:bg-indigo-500 text-white rounded-lg hover:bg-indigo-700 dark:hover:bg-indigo-600 transition-colors font-medium"
+            disabled={loading}
+            className="w-full px-4 py-3 bg-indigo-600 dark:bg-indigo-500 text-white rounded-lg hover:bg-indigo-700 dark:hover:bg-indigo-600 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           >
-            {t("register.submitButton")}
+            {loading ? (
+              <>
+                <svg
+                  className="animate-spin h-5 w-5 text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
+                </svg>
+                <span>{t("register.loading") || "Đang đăng ký..."}</span>
+              </>
+            ) : (
+              t("register.submitButton")
+            )}
           </button>
         </form>
 
