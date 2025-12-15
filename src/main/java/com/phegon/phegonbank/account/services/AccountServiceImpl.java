@@ -57,7 +57,18 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Response<List<AccountDTO>> getMyAccounts() {
-        return
+        User user = userService.getCurrentLoggedInUser();
+
+        List<AccountDTO> accounts = accountRepo.findByUserId(user.getId())
+                .stream()
+                .map(account -> modelMapper.map(account, AccountDTO.class))
+                .toList();
+
+        return Response.<List<AccountDTO>>builder()
+                .statusCode(HttpStatus.OK.value())
+                .message("User accounts fetched successfully")
+                .data(accounts)
+                .build();
     }
 
 
