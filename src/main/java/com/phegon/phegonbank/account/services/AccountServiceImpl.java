@@ -74,7 +74,25 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Response<?> closeAccount(String accountNumber) {
-        return null;
+        User user = userService.getCurrentLoggedInUser();
+        Account account = accountRepo.findByAccountNumber(accountNumber)
+                .orElseThrow(() -> new NotFoundException("Account Not Found"));
+
+        if (!user.getAccounts().contains(account)) {
+            throw new NotFoundException("Account doesn't belong to you");
+        }
+
+        if (account.getBalance().compareTo(BigDecimal.ZERO) > 0) {
+            throw new BadRequestException("Account balance must be zero before closing");
+        }
+        account.setStatus(AccountStatus.CLOSED);
+        account.setClosedAt(LocalDateTime.now());
+        accountRepo.save(account);
+
+        return Response.builder()
+                .statusCode(HttpStatus.OK.value())
+                .message("Account closed successfully")
+                .build();
     }
     private String generateAccountNumber() {
         String accountNumber;
